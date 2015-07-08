@@ -1,1 +1,7 @@
 Helle World
+
+
+When the newly created repository can not be pushed, use the following commands:
+
+git checkout master
+ git push origin +HEAD
