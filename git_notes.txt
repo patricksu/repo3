@@ -3,5 +3,19 @@ Helle World
 
 When the newly created repository can not be pushed, use the following commands:
 
-git checkout master
- git push origin +HEAD
+syn a new repository:
+	git init
+	git remote add origin http://....
+
+commit and push changes:
+	git add .
+	git add -u
+	git add -A
+	git commit -m "message"
+	git push
+	Or
+	(git checkout master
+	git push origin +HEAD)
+
+Syn a fork
+	git clone http://...
