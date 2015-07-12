@@ -1,0 +1,4 @@
+getwd()			get working directory
+dir()			list everyting in the directory
+read.csv()	
+source(mycode.R)	load a R code into workspace
