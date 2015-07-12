@@ -7,6 +7,9 @@ syn a new repository:
 	git init
 	git remote add origin http://....
 
+Check status of a new repository
+	git status
+
 commit and push changes:
 	git add .
 	git add -u
@@ -19,3 +22,16 @@ commit and push changes:
 
 Syn a fork
 	git clone http://...
+	git remote -v  ## find 
+	git set-url origin http:// or git@github.com/
+
+
+
+
+
+
+
+
+
+
+
