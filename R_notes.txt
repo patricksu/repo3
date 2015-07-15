@@ -2,3 +2,104 @@ getwd()			get working directory
 dir()			list everyting in the directory
 read.csv()	
 source(mycode.R)	load a R code into workspace
+
+print(x)		print x
+Five atomic object types:
+	character
+	numeric (real numbers)
+	integer
+	complex
+	logical (true/false)
+Vector: single object class
+List: items can be from different classes
+x <- 1L		explicitly say x is integer 1
+Inf:	numeric, infinity
+NaN:	undefined value (not a number)
+
+Creating vectors:
+x <- c(0.5, 0.6)
+x <- c(T,F)
+x <- c("a","b")
+x <- 9:29
+
+x <- c(TRUE, 2), x will be 1, 2
+as will explicitly do the coercion
+x <- 0:6
+as.logical(x)
+as.character(x)
+x[1], x[2]
+
+Creating lists
+list can contain different types
+x <- list(1,"a",TRUE,1+4i)
+x[[1]], x[[2]]
+
+
+Creating matrix
+Matrices are constructed column-wise, so entries can be thought as starting in the "upper left" corner and running down the columns. 
+m <- matrix(nrow=2,ncol=3)
+m <- matrix(1:6,nrow=2,ncol=3)
+
+cbind and rbind
+
+
+Creating factors
+factors are treated specially by lm and glm
+x <- factor(c("y","n","o"))
+table(x)
+
+x <- factor(c("y","n","y"),levels=c("y","n"))
+"y" will be the base level
+
+
+NaN is also NA, but the converse is not true.
+NA values have a class, so there is integer NA, character NA, etc. 
+
+Creating Data Frames
+read.table and read.csv will create data frames
+can be converted to a matrix by calling data.matrix()
+
+R objects can have names
+
+
+
+read.table	read.csv
+readLines
+source
+dget
+load	loading saved work spaces
+
+
+read large tables, play some tricks, like setting nrows to avoid memory overestimate, using first few to find col types and apply to the big dataset, or doing simple math of needed memory. 
+
+dumping and dputing can preserve the metadata
+
+y<- data.frame(a=1,b='a')
+dput(y)
+	structure(list(a = 1, b = structure(1L, .Label = 	"a", class = "factor")), .Names = c("a", 
+	"b"), row.names = c(NA, -1L), class = "data.frame")
+dput(y,file='y.R')
+## this will save y to 'y.R' with all the metadata stored
+new.y<-dget('y.R')
+
+rm(x,y)  ## remove certain objects
+x<-"foo"
+y<-data.frame(a=1,b="c")
+dump(c("x","y"),file="data.R")
+rm(x,y)
+source("data.R")
+## then x and y can be used directly. 
+
+connections
+	con<- gzfile("word.gz","r")
+	x<- readLines(con,10)
+
+	con<- url("www.jhu.edu","r")
+	x<- readLines(con)
+
+subsetting, or getting elements from a vector/list/data frame
+[] : 	returning the same class as the original
+[[]]:	extract from a list or data frame, class may change
+$:	extract from a list or data frame by name
+
+Two types of index: numerical index and logical index
