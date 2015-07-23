@@ -103,3 +103,35 @@ subsetting, or getting elements from a vector/list/data frame
 $:	extract from a list or data frame by name
 
 Two types of index: numerical index and logical index
+
+subsetting a list
+x[1]: return the same element (the first element as a list)
+x[[1]]: return all the elements of the first element
+x$foo
+x[["foo"]]
+name<-"foo"
+x[[name]] will work, but x$name will return nothing
+
+subsetting a matrix
+x[3,4] return the (3,4) element as a single variable
+x[3,4,drop=FALSE] will return the (3,4) element as a 1by1 matrix
+
+partial matching
+	allowed with [[]] and $
+x<-list(awward=1:5)
+x$a will return the awward list
+x[["a",exact=FALSE]] will also do the same
+
+Subsetting: removing missing values
+x<c(1,2,NaN,NA)
+bad<-is.na(x)
+x[!is.na(x)] will return only the valid values
+
+Look at multiple objects
+good<-complete.cases(x,y)   will return the indexes that both x and y have valid values
+
+good<-complete.cases(airquality)
+airquality[good,][1:6,] return all the good rows and get the first 6
+
+Vectorized Operations
+
