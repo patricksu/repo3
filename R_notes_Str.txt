@@ -1,0 +1,10 @@
+str
+	an alternative to "summary"
+
+for probability distribution
+d: density
+r: random number generation
+p: cumulative distribution
+q: quantile function
+
+set.seed()	Set the seed for a random number generator

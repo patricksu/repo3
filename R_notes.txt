@@ -134,4 +134,12 @@ good<-complete.cases(airquality)
 airquality[good,][1:6,] return all the good rows and get the first 6
 
 Vectorized Operations
+x<-matrix(1:4,2,2)
+y<-matrix(rep(10,4),2,2)
+x %*% y    this is true matrix muplication
+x * y	   this is pairwise muplication
 
+function value lazy evaluation, an argument is evaluated only when it is needed
+
+Lexical Scoping
+Freeway variables are not formal arguments and are not local variables. The scoping rules of a language determine how values are assigned to free variables. 

@@ -1,0 +1,12 @@
+lapply always returns a list
+The input will be coerced to a list if it is not.
+lapply uses anonymous functions heavily
+
+sapply simplifies the result of lapply if possible.
+
+apply, used to apply a function to the rows or columns
+	of a matrix, instead of list
+(rowSums,rowMeans,colSums,colMeans, faster than apply)
+
+mapply, apply the same function based on different arguments
+
