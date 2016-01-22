@@ -1,0 +1,27 @@
+if(!file.exists("data"))
+{
+	dir.create("data")
+}
+
+Getting data from the internet
+	download.file()   , url, destfile, method
+	download.file(fileUrl, destfile="./data/camera.csv",method="curl")
+	list.files("./data")
+
+read.table
+	na.strings	set the character that represents a missing value
+	quote=""	set quotations that should be skipped
+
+xlsx	package for reading Excel files
+XLConnect	more powerful and complicated for reading and writing Excel files
+
+Reading XML (extensible markup language)
+	doc<-xmlTreeParse(fileUrl,useInternet="TRUE")
+	rootNode<-xmlRoot(doc)
+	xmlName(rootNode)
+rootNode[[1]][[2]]
+xmlSApply(rootNode,xmlValue)	//loops through all the nodes and return the element values
+xpathSApply(rootNode,"//name",xmlValue)
+xpathSApply(rootNode,"//price",xmlValue)
+
+doc<-htmlTreeParse(fileUrl,userInternet=TRUE)

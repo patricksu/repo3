@@ -1,9 +1,71 @@
 getwd()			get working directory
 dir()			list everyting in the directory
+list.files()		show all files in a directory
 read.csv()	
 source(mycode.R)	load a R code into workspace
-
+old.dir<-getwd()	can be used to go back to old directory
+dir.create()		create a new directory
+file.create()		create a new file
+file.exists()		check if a file exists in a directory
+		//check if a file exists before doing anything on it
+file.info()		check the information of a file
+file.rename()		rename a file
+file.remove()		remove a file
+file.copy()		copy a file and give it a new name
+file.path()		return the relative path to a file
+		//can be used to create file path independent of OS
+		//eg. file.path("path1","path2")
+unlink(directory, recursive=TRUE) //will remove a directory
+		//history, unlink is the traditional unix command for 		//removing directories
+setwd(old.dir)	//go back to the original directory
 print(x)		print x
+
+
+Sequences of numbers lecture:
+seq(5,10,length=30)
+seq(0,10,by=0.5)
+1:length(my_seq)
+seq(along.with=my_seq)
+seq_along(my_seq)
+
+rep(0,times=40)
+rep(c(0,1,2),times=10)	repeat c(0,1,2) for 10 times
+rep(c(0,1,2),each=10)	repeat each of c(0,1,2) 10 times
+
+
+
+
+
+Logical and Character vectors lecture
+
+my_name<-c(c("My","Name"),"Patrick")
+paste(my_name,collapse="")
+paste(1:3,c("X","Y","Z"),sep="")  
+	result:  "1X" "2Y" "3Z"
+
+
+
+
+Missing Values Lecture
+my_data<-sample(c(y,z),100)
+my_data==NA  is not the same with   is.na(my_data)
+
+
+
+
+
+
+lapply and sapply lecture
+
+When a returned list can not be simplified into a vector,
+sapply will return the same thing with lapply
+
+
+
+
+
+
+
 Five atomic object types:
 	character
 	numeric (real numbers)
