@@ -104,7 +104,8 @@ boot(void)
 	kprintf("Peng Su's system version %s (%s #%d)\n",
 		GROUP_VERSION, buildconfig, buildversion);
 	kprintf("\n");
-
+	hello();
+	kprintf("\n");
 	/* Early initialization. */
 	ram_bootstrap();
 	proc_bootstrap();
