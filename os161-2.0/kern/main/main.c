@@ -70,7 +70,7 @@ extern const char buildconfig[];
 static const char harvard_copyright[] =
     "Copyright (c) 2000, 2001-2005, 2008-2011, 2013, 2014\n"
     "   President and Fellows of Harvard College.  All rights reserved.\n";
-
+ void hello(void);
 
 /*
  * Initial boot sequence.

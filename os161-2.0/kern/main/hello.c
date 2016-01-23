@@ -7,9 +7,10 @@
 #include <types.h>
 #include <lib.h>
 
+void hello(void);
 
 void
 hello(void)
 {
-	kprintf("Hellow World\n");
+	kprintf("Hello World\n");
 }
