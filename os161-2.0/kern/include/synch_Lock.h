@@ -121,10 +121,6 @@ bool lock_do_i_hold(struct lock *);
 struct cv {
         char *cv_name;
         // add what you need here
-        //Peng 2.21.2016
-        struct wchan *cv_wchan;
-        struct spinlock cv_splk;
-        //Peng
         // (don't forget to mark things volatile as needed)
 };
 

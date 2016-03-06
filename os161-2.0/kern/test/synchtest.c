@@ -249,7 +249,6 @@ cvtestthread(void *junk, unsigned long num)
 				V(donesem);
 				thread_exit();
 			}
-
 		}
 		kprintf("Thread %lu\n", num);
 		testval1 = (testval1 + NTHREADS - 1)%NTHREADS;

@@ -32,8 +32,63 @@
 #include <clock.h>
 #include <thread.h>
 #include <test.h>
+#include <synch.h>
+#include <wchan.h>
 
 #define NPEOPLE 20
+
+#define BOYS 1
+#define GIRLS 2
+#define FREE 0
+
+
+static struct lock *bath_lock;
+
+static struct cv *boy_cv;
+static struct cv *girl_cv;
+
+static struct semaphore *bath_sem;
+static struct semaphore *finish_sem;
+
+static volatile int bath_state = FREE;
+static volatile int last_state = FREE;
+
+static volatile int boy_count = 0;
+static volatile int girl_count = 0;
+
+static
+void
+initlocks(void)
+{
+	//Init lock for both boy and gril threads
+		bath_lock = lock_create("bath_lock");
+		if (bath_lock == NULL) {
+			panic("bath_lock create failed\n");
+		}
+
+	//Init lock for boy threads
+		boy_cv = cv_create("boy_cv");
+		if (boy_cv == NULL) {
+			panic("boy_cv reate failed\n");
+		}
+	//Init lock for girl threads
+		girl_cv = cv_create("girl_cv");
+		if (girl_cv == NULL) {
+			panic("boy_cv create failed\n");
+		}
+
+	//Init sem for mate (wait for all three whales(male, female, matchmaker) ready to mate)
+		bath_sem = sem_create("bath_sem", 3);
+		if (bath_sem == NULL) {
+			panic("bath_sem create failed\n");
+		}
+	//Init sem for finish (Record number of thread that already finished)
+		finish_sem = sem_create("finish_sem", 0);
+		if (finish_sem == NULL) {
+			panic("finish_sem create failed\n");
+		}
+
+}
 
 
 static
@@ -51,13 +106,33 @@ boy(void *p, unsigned long which)
 	(void)p;
 	kprintf("boy #%ld starting\n", which);
 
-	// Implement this function
+	lock_acquire(bath_lock);
+		//if there's grils in bath or no room for bath, wait in boy_cv wait channel
+		while(bath_state == GIRLS || bath_sem->sem_count == 0 || last_state == BOYS){
+			boy_count++;
+			cv_wait(boy_cv, bath_lock);
+			boy_count--;
+		}
+		P(bath_sem);
+		bath_state = BOYS;
+	lock_release(bath_lock);
 
 	// use bathroom
 	kprintf("boy #%ld entering bathroom...\n", which);
 	shower();
 	kprintf("boy #%ld leaving bathroom\n", which);
+   if(girl_count > 0)last_state = BOYS;
+	V(bath_sem);
 
+	lock_acquire(bath_lock);
+      if(girl_count == 0)cv_broadcast(boy_cv,bath_lock);
+		else if(bath_sem->sem_count == 3){
+			bath_state = GIRLS;
+			cv_broadcast(girl_cv,bath_lock);
+		}
+	lock_release(bath_lock);
+
+	V(finish_sem);
 }
 
 static
@@ -68,12 +143,36 @@ girl(void *p, unsigned long which)
 	kprintf("girl #%ld starting\n", which);
 
 	// Implement this function
-	
+
+	lock_acquire(bath_lock);
+
+		while(bath_state == BOYS || bath_sem->sem_count == 0 || (last_state == GIRLS && boy_count > 0)){//if there's grils in bath or no room for bath, wait in boy_cv wait channel
+			girl_count++;
+			cv_wait(girl_cv, bath_lock);
+			girl_count--;
+		}
+		P(bath_sem);
+		bath_state = GIRLS;
+	lock_release(bath_lock);
+
+
 	// use bathroom
 	kprintf("girl #%ld entering bathroom\n", which);
 	shower();
 	kprintf("girl #%ld leaving bathroom\n", which);
+	if(boy_count > 0)last_state = GIRLS;
+	V(bath_sem);
 
+	lock_acquire(bath_lock);
+      if(boy_count == 0)cv_broadcast(girl_cv,bath_lock);
+		else if(bath_sem->sem_count == 3){
+			bath_state = BOYS;
+			cv_broadcast(boy_cv,bath_lock);
+		}
+	lock_release(bath_lock);
+
+
+	V(finish_sem);
 }
 
 // Change this function as necessary
@@ -85,7 +184,8 @@ bathroom(int nargs, char **args)
 
 	(void)nargs;
 	(void)args;
-
+   
+	initlocks();
 
 	for (i = 0; i < NPEOPLE; i++) {
 		switch(i % 2) {
@@ -104,7 +204,13 @@ bathroom(int nargs, char **args)
 		}
 	}
 
+	//waiting for all thread finish.
+	for (i=0; i<NPEOPLE; i++) {
+		P(finish_sem);
+	}
 
+	kprintf("All boys and girls have finished bathing!!!\n");
+   
 	return 0;
 }
 

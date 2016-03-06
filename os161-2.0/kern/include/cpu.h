@@ -68,7 +68,7 @@ struct cpu {
 	 */
 	bool c_isidle;			/* True if this cpu is idle */
 	struct threadlist c_runqueue;	/* Run queue for this cpu */
-	struct spinlock c_runqueue_lock;
+	struct spinlock;
 
 	/*
 	 * Accessed by other cpus.
